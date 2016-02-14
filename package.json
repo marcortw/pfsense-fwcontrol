@@ -1,0 +1,16 @@
+{
+  "name": "pfsense-fwcontrol",
+  "version": "0.0.1",
+  "description": "A simple proof of concept to control pfSense's firewall",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Marco Schnüriger",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^1.5.2",
+    "cheerio": "^0.20.0",
+    "request": "^2.69.0"
+  }
+}
