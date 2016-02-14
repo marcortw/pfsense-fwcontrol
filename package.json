@@ -1,6 +1,6 @@
 {
   "name": "pfsense-fwcontrol",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A simple proof of concept to control pfSense's firewall",
   "main": "index.js",
   "scripts": {
@@ -12,5 +12,9 @@
     "async": "^1.5.2",
     "cheerio": "^0.20.0",
     "request": "^2.69.0"
+  },
+  "repository" :
+  { "type" : "git"
+  , "url" : "https://github.com/marcortw/pfsense-fwcontrol.git"
   }
 }

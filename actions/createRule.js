@@ -95,6 +95,8 @@ var createRule = function (session, useropts, rule, callback) {
             // overwrite the defaults with the supplied params
             params = rule.params;
 
+            // TODO: Check if rule.descr <=52 chars
+
             // add the CSRF token
             params[token.csrftoken_key] = token.csrftoken_value;
 
