@@ -3,7 +3,6 @@ var pfSense = require('./actions/all');
 
 var start = function (connection, tasks, callback) {
     var useropts = connection;
-    var tasks = tasks;
     var resultArr = [];
 
     async.waterfall([
@@ -38,6 +37,19 @@ var start = function (connection, tasks, callback) {
                         break;
                     case 'delete':
                         pfSense.deleteRule(session, useropts, task, function (err, result) {
+                            if (err) {
+                                resultArr.push({'ruledesc': task.params.descr, 'status': 'error', 'errormessage': err});
+                                callback();
+                            } else {
+                                resultArr.push(result);
+                                pfSense.activateRule(session, useropts, function (err, result) {
+                                    callback();
+                                });
+                            }
+                        });
+                        break;
+                    case 'search':
+                        pfSense.searchRule(session, useropts, task, function (err, result) {
                             if (err) {
                                 resultArr.push({'ruledesc': task.params.descr, 'status': 'error', 'errormessage': err});
                                 callback();

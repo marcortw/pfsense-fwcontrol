@@ -46,6 +46,10 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-# other stuff
-.idea/
-node_modules/
+
+# =============
+# Custom Files
+# =============
+.idea
+node_modules
+test*.js
