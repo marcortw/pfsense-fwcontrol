@@ -49,51 +49,6 @@ var createRule = function (session, useropts, rule, callback) {
                 method: 'POST'
             };
 
-            var defaults = {
-                ruleid: '',
-                type: 'pass',
-                interface: '',
-                ipprotocol: 'inet',
-                proto: 'tcp',
-                srctype: '',
-                src: '',
-                srcbeginport: '',
-                srcbeginport_cust: '',
-                srcendport: '',
-                srcendport_cust: '',
-                dsttype: '',
-                dst: '',
-                dstbeginport: '',
-                dstendport: '',
-                descr: '',
-                Submit: 'Save',
-                os: '',
-                dscp: '',
-                tag: '',
-                tagged: '',
-                max: '',
-                'max-src-nodes': '',
-                'max-src-conn': '',
-                'max-src-states': '',
-                'max-src-conn-rate': '',
-                'max-src-conn-rates': '',
-                statetimeout: '',
-                statetype: '',
-                vlanprio: '',
-                vlanprioset: '',
-                sched: '',
-                gateway: '',
-                dnpipe: '',
-                pdnpipe: '',
-                ackqueue: '',
-                defaultqueue: '',
-                l7container: '',
-                referer: '',
-                after: ''
-            };
-
-            _.defaults(rule.params, defaults);
-
             if (rule.params.descr.length > 52) {
                 callback('Description too long. Maximum of 52 chars');
             } else {
