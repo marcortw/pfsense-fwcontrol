@@ -1,6 +1,6 @@
 {
   "name": "pfsense-fwcontrol",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "A simple proof of concept to control pfSense's firewall",
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,7 @@
   "dependencies": {
     "async": "^1.5.2",
     "cheerio": "^0.20.0",
+    "lodash": "^4.5.0",
     "request": "^2.69.0"
   },
   "repository": {

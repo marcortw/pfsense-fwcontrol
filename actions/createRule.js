@@ -1,6 +1,7 @@
 var async = require('async');
 var scrape = require('../lib/scrapers');
 var search = require('./searchRule');
+var _ = require('lodash');
 
 // create a rule
 var createRule = function (session, useropts, rule, callback) {
@@ -48,78 +49,79 @@ var createRule = function (session, useropts, rule, callback) {
                 method: 'POST'
             };
 
-            // some defaults
-            var params = {};
-            params.ruleid = '';
-            params.type = 'pass';
-            params.interface = '';
-            params.ipprotocol = 'inet';
-            params.proto = '';
-            params.srctype = '';
-            params.src = '';
-            params.srcbeginport = '';
-            params.srcbeginport_cust = '';
-            params.srcendport = '';
-            params.srcendport_cust = '';
-            params.dsttype = '';
-            params.dst = '';
-            params.dstbeginport = '';
-            params.dstendport = '';
-            params.descr = '';
-            params.Submit = 'Save';
-            params.after = '';
-            params.os = '';
-            params.dscp = '';
-            params.tag = '';
-            params.tagged = '';
-            params.max = '';
-            params['max-src-nodes'] = '';
-            params['max-src-conn'] = '';
-            params['max-src-states'] = '';
-            params['max-src-conn-rate'] = '';
-            params['max-src-conn-rates'] = '';
-            params.statetimeout = '';
-            params.statetype = '';
-            params.vlanprio = '';
-            params.vlanprioset = '';
-            params.sched = '';
-            params.gateway = '';
-            params.dnpipe = '';
-            params.pdnpipe = '';
-            params.ackqueue = '';
-            params.defaultqueue = '';
-            params.l7container = '';
-            params.referer = '';
-            params.after = '';
+            var defaults = {
+                ruleid: '',
+                type: 'pass',
+                interface: '',
+                ipprotocol: 'inet',
+                proto: 'tcp',
+                srctype: '',
+                src: '',
+                srcbeginport: '',
+                srcbeginport_cust: '',
+                srcendport: '',
+                srcendport_cust: '',
+                dsttype: '',
+                dst: '',
+                dstbeginport: '',
+                dstendport: '',
+                descr: '',
+                Submit: 'Save',
+                os: '',
+                dscp: '',
+                tag: '',
+                tagged: '',
+                max: '',
+                'max-src-nodes': '',
+                'max-src-conn': '',
+                'max-src-states': '',
+                'max-src-conn-rate': '',
+                'max-src-conn-rates': '',
+                statetimeout: '',
+                statetype: '',
+                vlanprio: '',
+                vlanprioset: '',
+                sched: '',
+                gateway: '',
+                dnpipe: '',
+                pdnpipe: '',
+                ackqueue: '',
+                defaultqueue: '',
+                l7container: '',
+                referer: '',
+                after: ''
+            };
 
-            // overwrite the defaults with the supplied params
-            params = rule.params;
+            _.defaults(rule.params, defaults);
 
-            // TODO: Check if rule.descr <=52 chars
+            if (rule.params.descr.length > 52) {
+                callback('Description too long. Maximum of 52 chars');
+            } else {
 
-            // add the CSRF token
-            params[token.csrftoken_key] = token.csrftoken_value;
+                // add the CSRF token
+                rule.params[token.csrftoken_key] = token.csrftoken_value;
 
-            // prepare the http request
-            addRuleRequest.form = params;
+                // prepare the http request
+                addRuleRequest.form = rule.params;
 
-            // fire the request
-            session(addRuleRequest, function (error, response, html) {
-                if (error) {
-                    callback(error);
-                } else {
-                    if (response.statusCode >= 400) {
-                        callback('HTTP Error: ' + response.statusCode);
+                // fire the request
+                session(addRuleRequest, function (error, response, html) {
+                    if (error) {
+                        callback(error);
                     } else {
-                        var ruleerror = scrape.getInputErrors(html);
-                        if (ruleerror) {
-                            callback(ruleerror)
+                        if (response.statusCode >= 400) {
+                            callback('HTTP Error: ' + response.statusCode);
                         } else {
-                            callback(null, {'ruledesc': rule.params.descr, 'status': 'created'});
+                            var ruleerror = scrape.getInputErrors(html);
+                            if (ruleerror) {
+                                callback(ruleerror)
+                            } else {
+                                callback(null, {'ruledesc': rule.params.descr, 'status': 'created'});
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
         }
     ], function (err, result) {
         if (err) {
