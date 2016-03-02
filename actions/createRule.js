@@ -17,7 +17,7 @@ var createRule = function (session, useropts, rule, callback) {
                     callback(error);
                 } else {
                     if (response.statusCode >= 400) {
-                        callback('HTTP Error: ' + response.statusCode);
+                        callback(new Error('HTTP Error: ' + response.statusCode));
                     } else {
                         var token = scrape.getCsrfToken(html);
                         callback(null, token, html);
@@ -33,7 +33,7 @@ var createRule = function (session, useropts, rule, callback) {
                     if (callback) callback(err);
                 } else {
                     if (result.status == 'exists') {
-                        callback('Rule cannot be created. Rule already exists.');
+                        callback(new Error('Rule cannot be created. Rule already exists.'));
                     } else {
                         callback(null, token)
                     }
@@ -50,7 +50,7 @@ var createRule = function (session, useropts, rule, callback) {
             };
 
             if (rule.params.descr.length > 52) {
-                callback('Description too long. Maximum of 52 chars');
+                callback(new Error('Description too long. Maximum of 52 chars'));
             } else {
 
                 // add the CSRF token
@@ -65,7 +65,7 @@ var createRule = function (session, useropts, rule, callback) {
                         callback(error);
                     } else {
                         if (response.statusCode >= 400) {
-                            callback('HTTP Error: ' + response.statusCode);
+                            callback(new Error('HTTP Error: ' + response.statusCode));
                         } else {
                             var ruleerror = scrape.getInputErrors(html);
                             if (ruleerror) {

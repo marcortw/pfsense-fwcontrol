@@ -15,7 +15,7 @@ var activate = function (session, useropts, callback) {
                     callback(error);
                 } else {
                     if (response.statusCode >= 400) {
-                        callback('HTTP Error: ' + response.statusCode);
+                        callback(new Error('HTTP Error: ' + response.statusCode));
                     } else {
                         var token = scrape.getCsrfToken(html);
                         callback(null, token);
@@ -40,7 +40,7 @@ var activate = function (session, useropts, callback) {
                     callback(error);
                 } else {
                     if (response.statusCode >= 400) {
-                        callback('HTTP Error: ' + response.statusCode);
+                        callback(new Error('HTTP Error: ' + response.statusCode));
                     } else {
                         callback(null, {'rules': 'all', 'status': 'activated'});
                     }

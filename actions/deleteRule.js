@@ -16,7 +16,7 @@ var deleteRule = function (session, useropts, rule, callback) {
                     callback(error);
                 } else {
                     if (response.statusCode >= 400) {
-                        callback('HTTP Error: ' + response.statusCode);
+                        callback(new Error('HTTP Error: ' + response.statusCode));
                     } else {
                         var token = scrape.getCsrfToken(html);
                         callback(null, token, html);
@@ -34,7 +34,7 @@ var deleteRule = function (session, useropts, rule, callback) {
                     if (result.status == 'exists') {
                         callback(null, result.id, token)
                     } else {
-                        callback('Rule cannot be deleted. Rule does not exist.');
+                        callback(new Error('Rule cannot be deleted. Rule does not exist.'));
                     }
                 }
             });
@@ -53,7 +53,7 @@ var deleteRule = function (session, useropts, rule, callback) {
                     callback(error);
                 } else {
                     if (response.statusCode >= 400) {
-                        callback('HTTP Error: ' + response.statusCode);
+                        callback(new Error('HTTP Error: ' + response.statusCode));
                     } else {
                         var ruleerror = scrape.getInputErrors(html);
                         if (ruleerror) {

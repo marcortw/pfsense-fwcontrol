@@ -15,7 +15,7 @@ var searchRule = function (session, useropts, rule, callback) {
                     callback(error);
                 } else {
                     if (response.statusCode >= 400) {
-                        callback('HTTP Error: ' + response.statusCode);
+                        callback(new Error('HTTP Error: ' + response.statusCode));
                     } else {
                         var token = scrape.getCsrfToken(html);
                         callback(null, token, html);

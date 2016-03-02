@@ -103,6 +103,7 @@ var start = function (connection, tasks, callback) {
         }
     ], function (err, result) {
         if (err) {
+            // TODO: move the stuff from resultArr to the actuall error
             if (callback) callback(err, resultArr);
         } else {
             if (callback) callback(null, resultArr);
